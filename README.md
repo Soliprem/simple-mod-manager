@@ -16,7 +16,7 @@ simple-mod-manager -i immersive-driving -o /storage/Games/cyberpunk-2077
 
 ### With zip archives
 
-Either unzip the archive to a new directory and then run the snippet as above, or use the apply-zip script
+Either unzip the archive to a new directory and then run the snippet as above, or use the apply-zipped script
 
 ```
 apply-zipped -i archive.zip -o <destination_directory>
@@ -25,5 +25,5 @@ apply-zipped -i archive.zip -o <destination_directory>
 For example 
 
 ```
-simple-mod-manager -i immersive-driving.zip -o /storage/Games/cyberpunk-2077
+apply-zipped -i immersive-driving.zip -o /storage/Games/cyberpunk-2077
 ```
