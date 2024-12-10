@@ -21,7 +21,11 @@ def merge_dir [input_dir: path, input_files: list output_dir: path, database_fil
     } 
     let updated_entries = ($existing_entries | merge $new_entry)
     $updated_entries | to json | save -f $database_file
-    $input_files | each { |file| cp -vr ($input_dir | path join $file) $output_dir } | ignore
+glob ($input_dir | path join "**/*") |
+        path relative-to $input_dir |
+        where $it != "" |
+        each { |file| cp -vr ($input_dir | path join $file) $output_dir } |
+        ignore
 }
 
 def undo_transaction [
@@ -60,7 +64,7 @@ def main [
     let database_file = ($env.XDG_DATA_HOME | path join "simple-mod-manager.json")
     if not $delete { 
         echo $input_dir
-        let input_files = (glob -D ($input_dir + "/**/*") | path relative-to $input_dir )
+        let input_files = (glob -D ($input_dir | path join "**/*") | path relative-to $input_dir )
         if not $force {
             let conflicts = find_conflict $input_dir $input_files $output_dir 
             assert ($conflicts | is-empty) $"There's a file conflict \(($conflicts) are overlapping). This is currently unsupported"
